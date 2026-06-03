@@ -12,6 +12,24 @@
         <script src="https://kit.fontawesome.com/50524bf92d.js" 
         crossorigin="anonymous"></script>
     </head>
+    
+    <script>
+function addToCart(name, price, image) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    cart.push({
+        name: name,
+        price: price,
+        image: image,
+        quantity: 1
+    });
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert("Product added to cart!");
+}
+</script>
+    
     <body>
 
         <div class="header">
