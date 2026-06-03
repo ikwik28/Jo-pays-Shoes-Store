@@ -13,6 +13,68 @@
         crossorigin="anonymous"></script>
     </head>
     
+    <script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+let cartItems = document.getElementById("cart-items");
+
+let merchandiseTotal = 0;
+
+cart.forEach((item, index) => {
+    let subtotal = item.price * item.quantity;
+    merchandiseTotal += subtotal;
+
+    cartItems.innerHTML += `
+    <tr>
+        <td>
+            <div class="cart-info">
+                <img src="${item.image}">
+                <div>
+                    <h4>${item.name}</h4>
+                    <small>Price: ₱${item.price.toLocaleString()}</small>
+                    <br>
+                    <a href="#" onclick="removeItem(${index})">
+                        Remove
+                    </a>
+                </div>
+            </div>
+        </td>
+        <td>
+            <input type="number"
+                   value="${item.quantity}"
+                   min="1"
+                   onchange="updateQuantity(${index}, this.value)">
+        </td>
+        <td>₱${subtotal.toLocaleString()}</td>
+    </tr>
+    `;
+});
+
+const shipping = 58;
+const total = merchandiseTotal + shipping;
+
+document.getElementById("merchandise").innerText =
+    `₱${merchandiseTotal.toLocaleString()}`;
+
+document.getElementById("shipping").innerText =
+    `₱${shipping.toLocaleString()}`;
+
+document.getElementById("total").innerText =
+    `₱${total.toLocaleString()}`;
+
+function removeItem(index) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    location.reload();
+}
+
+function updateQuantity(index, qty) {
+    cart[index].quantity = parseInt(qty);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    location.reload();
+}
+    </script>
+    
     <body>
 
         <div class="header">
